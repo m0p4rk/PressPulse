@@ -10,25 +10,34 @@ import java.util.Map;
 import news.util.DBUtil;
 
 public class NewsDAO {
-	
-    public static Map<String, String> getAllNews() throws SQLException, ClassNotFoundException {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rset = null;
-        Map<String, String> newsMap = new HashMap<>();
 
-        try {
-            conn = DBUtil.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM summary");
-            rset = stmt.executeQuery();
+	// Double map
+	private static void loadNewsData(Map<String, String> titleToUrlMap, Map<String, String> urlToTitleMap)
+			throws SQLException, ClassNotFoundException {
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement stmt = conn.prepareStatement("SELECT * FROM summary");
+				ResultSet rset = stmt.executeQuery()) {
 
-            while (rset.next()) {
-                newsMap.put(rset.getString("title"), rset.getString("url"));
-            }
-        } finally {
-            DBUtil.close(conn, stmt, rset);
-        }
+			while (rset.next()) {
+				String title = rset.getString("title");
+				String url = rset.getString("url");
+				titleToUrlMap.put(title, url);
+				urlToTitleMap.put(url, title);
+			}
+		}
+	}
 
-        return newsMap;
-    }
+	public static Map<String, String> getTitleToUrlMap() throws SQLException, ClassNotFoundException {
+		Map<String, String> titleToUrlMap = new HashMap<>();
+		Map<String, String> urlToTitleMap = new HashMap<>(); // not used
+		loadNewsData(titleToUrlMap, urlToTitleMap);
+		return titleToUrlMap;
+	}
+
+	public static Map<String, String> getUrlToTitleMap() throws SQLException, ClassNotFoundException {
+		Map<String, String> titleToUrlMap = new HashMap<>(); // not used
+		Map<String, String> urlToTitleMap = new HashMap<>();
+		loadNewsData(titleToUrlMap, urlToTitleMap);
+		return urlToTitleMap;
+	}
 }

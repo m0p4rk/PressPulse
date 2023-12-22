@@ -6,21 +6,19 @@ import java.util.Map;
 import news.dao.NewsDAO;
 
 public class NewsService {
-	
+
+	// Get all data in Map type
 	public static Map<String, String> getAllData() throws ClassNotFoundException, SQLException {
-	    Map<String, String> newsMap = null;
-	    newsMap = NewsDAO.getAllNews();
-
-	    return newsMap;
+		return NewsDAO.getTitleToUrlMap();
 	}
 
-
-	public static String geturlbytitle(String title) {
-
+	public static String getUrlByTitle(String title) throws ClassNotFoundException, SQLException {
+		Map<String, String> titleToUrlMap = NewsDAO.getTitleToUrlMap();
+		return titleToUrlMap.get(title);
 	}
 
-	public static String gettitlebyurl(String url) {
-
+	public static String getTitleByUrl(String url) throws ClassNotFoundException, SQLException {
+		Map<String, String> urlToTitleMap = NewsDAO.getUrlToTitleMap();
+		return urlToTitleMap.get(url);
 	}
-
 }
