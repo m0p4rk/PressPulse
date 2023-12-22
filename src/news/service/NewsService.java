@@ -1,19 +1,19 @@
 package news.service;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Map;
 
 import news.dao.NewsDAO;
-import news.dto.News;
 
 public class NewsService {
 	
-	public static ArrayList<News> getAllData() throws ClassNotFoundException, SQLException{
-		ArrayList<News> newsList = null;
-		newsList = NewsDAO.getAllNews();
-		
-		return newsList;
+	public static Map<String, String> getAllData() throws ClassNotFoundException, SQLException {
+	    Map<String, String> newsMap = null;
+	    newsMap = NewsDAO.getAllNews();
+
+	    return newsMap;
 	}
+
 
 	public static String geturlbytitle(String title) {
 
