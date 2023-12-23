@@ -1,23 +1,55 @@
-1. **Web Scraping with Jsoup**:
-   - Utilized the Jsoup library to extract news titles and URLs from a specific news website.
-   - Implemented the `getNews` method to store news titles as keys and corresponding URLs as values in a `HashMap`.
+# PressPulse
 
-2. **Use of Java Properties File**:
-   - Created a `jsoup.properties` file to define the URL and selector needed for the Jsoup connection.
-   - Used the `JSOUPUtil` class to read the properties file, making it accessible to the `NewsScraper` class.
+This Java-based application provides a straightforward command-line interface for scraping news data from a website using Jsoup and storing the scraped data into a database.
 
-3. **Database Storage Logic**:
-   - Added a `saveNews` method to the `NewsDAO` class to store news data in the database.
-   - Employed the `ON DUPLICATE KEY UPDATE` SQL clause to prevent the insertion of duplicate news titles into the database.
+## Features
 
-4. **Database Table Structure**:
-   - Based on the provided database schema image, recognized the existence of `title` and `url` columns in the `summary` table.
-   - Set a `UNIQUE` index on the `title` column to ensure that duplicate news titles are not stored.
+- **Scrape News Data**: Automatically fetches news titles and URLs from the specified news website.
+- **Database Integration**: Saves the scraped news data into a database for persistent storage and retrieval.
+- **Title and URL Fetching**: Retrieves the URL associated with a news title and vice versa, providing a quick lookup feature.
+- **Duplicate Prevention**: Ensures that the same news title does not get stored in the database more than once.
 
-5. **Service Layer Implementation**:
-   - Implemented the `NewsService` class to include logic for storing the news data collected with Jsoup into the database.
-   - Provided methods such as `getAllData`, `getUrlByTitle`, and `getTitleByUrl` for data retrieval and management.
+## Setup
 
-6. **Code Optimization**:
-   - Added a duplication check logic to efficiently store the data collected with Jsoup into the database.
-   - Modified the `saveNews` method to check for the existence of the `title` before insertion to prevent duplicates.
+Before running the application, ensure that you have the following prerequisites installed:
+
+- Java Development Kit (JDK)
+- A MySQL server instance running and accessible
+- Maven (for managing dependencies)
+
+### Dependencies
+
+The application uses the following Java libraries:
+
+- `Jsoup`: For scraping web content.
+- `MySQL Connector/J`: For database connectivity.
+
+Dependencies are managed through Maven and specified in the `pom.xml` file.
+
+## Configuration
+
+1. Update the `jsoup.properties` file with the target URL and the document selector based on the HTML structure of the news website.
+2. Configure your database connection settings in the `DBUtil` class.
+
+## Usage
+
+Run the application through the command line by navigating to the root directory and executing:
+
+```sh
+java -cp target/your-app.jar news.view.NewsView
+```
+
+You will be prompted with the following options:
+
+- Enter `1` to scrape news and store it in the database.
+- Enter `2` to input a URL and retrieve the corresponding news title.
+- Enter `3` to input a news title and retrieve the corresponding URL.
+
+## Important Notes
+
+- The tool performs web scraping which is subject to the terms and conditions of the target website. Ensure that you have the right to scrape the website and that you comply with its `robots.txt` file.
+- The database schema must have a `summary` table with `title` and `url` columns, where `title` has a UNIQUE constraint to prevent duplicates.
+
+## Contributing
+
+Contributions to enhance the functionality, improve the code structure, or fix bugs are welcome. Please feel free to fork the repository and submit pull requests.
