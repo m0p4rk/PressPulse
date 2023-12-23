@@ -28,4 +28,9 @@ public class NewsService {
         Map<String, String> newsMap = NewsScraper.getNews(); // Jsoup을 사용해 뉴스 데이터를 가져옴
         NewsDAO.saveNews(newsMap); // 데이터베이스에 저장
     }
+	
+	public static void storeScrapedNews(Map<String, String> newsData) throws ClassNotFoundException, SQLException {
+        // 데이터베이스에 뉴스 데이터를 저장합니다.
+        NewsDAO.saveNews(newsData);
+    }
 }

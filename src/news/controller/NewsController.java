@@ -1,50 +1,54 @@
 package news.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.Map;
 
+import news.model.NewsScraper;
 import news.service.NewsService;
 
 public class NewsController {
 
-	public static void urltogettitle(String url){
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print("input URL : ");
-		try {
-			url = br.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    public static void urltogettitle(String url) {
+        try {
+            String title = NewsService.getTitleByUrl(url);
+            if(title != null && !title.isEmpty()) {
+                System.out.println("Title: " + title);
+            } else {
+                System.out.println("No title found for the given URL.");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while fetching the title.");
+        }
+    }
 
-		try {
-			System.out.println(NewsService.getTitleByUrl(url));
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	public static void titletogeturl(String title){
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print("input TITLE : ");
-		try {
-			title = br.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-
-		try {
-			System.out.println(NewsService.getUrlByTitle(title));
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+    public static void titletogeturl(String title) {
+        try {
+            String url = NewsService.getUrlByTitle(title);
+            if(url != null && !url.isEmpty()) {
+                System.out.println("URL: " + url);
+            } else {
+                System.out.println("No URL found for the given title.");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while fetching the URL.");
+        }
+    }
+    
+    public static void scrapeAndStoreNews() {
+        try {
+            // 스크랩한 뉴스 데이터를 가져옵니다.
+            Map<String, String> newsData = NewsScraper.getNews();
+            
+            // 뉴스 데이터를 데이터베이스에 저장합니다.
+            NewsService.storeScrapedNews(newsData);
+            
+            System.out.println("News data has been scraped and stored in the database.");
+        } catch (IOException | ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            System.out.println("An error occurred during scraping or storing the news.");
+        }
+    }
 }
