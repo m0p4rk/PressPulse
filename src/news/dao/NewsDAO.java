@@ -40,4 +40,18 @@ public class NewsDAO {
 		loadNewsData(titleToUrlMap, urlToTitleMap);
 		return urlToTitleMap;
 	}
+	
+	public static void saveNews(Map<String, String> newsMap) throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBUtil.getConnection();
+             // title이 이미 존재하면 아무것도 하지 않음 (MySQL/MariaDB 경우)
+             PreparedStatement pstmt = conn.prepareStatement(
+               "INSERT INTO summary (title, url) VALUES (?, ?) ON DUPLICATE KEY UPDATE title=title")) {
+
+            for (Map.Entry<String, String> entry : newsMap.entrySet()) {
+                pstmt.setString(1, entry.getKey()); // title
+                pstmt.setString(2, entry.getValue()); // url
+                pstmt.executeUpdate();
+            }
+        }
+    }
 }

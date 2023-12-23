@@ -1,9 +1,11 @@
 package news.service;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 
 import news.dao.NewsDAO;
+import news.model.NewsScraper;
 
 public class NewsService {
 
@@ -21,4 +23,9 @@ public class NewsService {
 		Map<String, String> urlToTitleMap = NewsDAO.getUrlToTitleMap();
 		return urlToTitleMap.get(url);
 	}
+	
+	public static void storeNewsInDatabase() throws ClassNotFoundException, SQLException, IOException {
+        Map<String, String> newsMap = NewsScraper.getNews(); // Jsoup을 사용해 뉴스 데이터를 가져옴
+        NewsDAO.saveNews(newsMap); // 데이터베이스에 저장
+    }
 }
