@@ -1,55 +1,52 @@
-# PressPulse
+# PressPulse - Java Console News Application
 
-This Java-based application provides a straightforward command-line interface for scraping news data from a website using Jsoup and storing the scraped data into a database.
+## Overview
+`PressPulse` is a Java-based console application that scrapes news data from the web and allows users to interact with and manage this data through a console interface. This application is ideal for users who prefer a simple, command-line interface for news management.
 
-## Features
+## Installation
+1. **Java Installation**: Ensure Java Development Kit (JDK) is installed on your system. If not, download and install it from the [Oracle official website](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+2. **Clone the Repository**: Clone the source code of the project to your local machine.
+   ```bash
+   git clone https://github.com/your-repository/PressPulse.git
+   cd PressPulse
+   ```
+3. **Install Dependencies**: If the project uses Maven for dependency management, install the required dependencies.
+   ```bash
+   mvn install
+   ```
 
-- **Scrape News Data**: Automatically fetches news titles and URLs from the specified news website.
-- **Database Integration**: Saves the scraped news data into a database for persistent storage and retrieval.
-- **Title and URL Fetching**: Retrieves the URL associated with a news title and vice versa, providing a quick lookup feature.
-- **Duplicate Prevention**: Ensures that the same news title does not get stored in the database more than once.
-
-## Setup
-
-Before running the application, ensure that you have the following prerequisites installed:
-
-- Java Development Kit (JDK)
-- A MySQL server instance running and accessible
-- Maven (for managing dependencies)
-
-### Dependencies
-
-The application uses the following Java libraries:
-
-- `Jsoup`: For scraping web content.
-- `MySQL Connector/J`: For database connectivity.
-
-Dependencies are managed through Maven and specified in the `pom.xml` file.
-
-## Configuration
-
-1. Update the `jsoup.properties` file with the target URL and the document selector based on the HTML structure of the news website.
-2. Configure your database connection settings in the `DBUtil` class.
-
-## Usage
-
-Run the application through the command line by navigating to the root directory and executing:
-
-```sh
-java -cp target/your-app.jar news.view.NewsView
+## Execution
+To start the application, navigate to the project directory and execute the following command:
+```bash
+java -cp target/PressPulse.jar news.view.NewsView
 ```
 
-You will be prompted with the following options:
+## Key Features
+- **Scraping and Storing News**: Scrape the latest news from the web and store it in a local database.
+- **Viewing All News**: Display all scraped news titles and URLs stored in the database.
+- **Search by Title or URL**: Find a news URL using its title or vice versa.
+- **Filter by Date and Keyword**: Retrieve news articles based on a specific date or keyword.
+- **Display Latest News**: Show the most recent news items based on user-defined limits.
 
-- Enter `1` to scrape news and store it in the database.
-- Enter `2` to input a URL and retrieve the corresponding news title.
-- Enter `3` to input a news title and retrieve the corresponding URL.
+## How to Use
+Upon running the application, the following menu options will be displayed:
 
-## Important Notes
+```
+1 - Scrape news and store in database
+2 - Display all news from database
+3 - Get title by URL
+4 - Get URL by title
+5 - Display news after a specific date
+6 - Display the latest N news
+7 - Display news by keyword
+0 - Exit
+```
 
-- The tool performs web scraping which is subject to the terms and conditions of the target website. Ensure that you have the right to scrape the website and that you comply with its `robots.txt` file.
-- The database schema must have a `summary` table with `title` and `url` columns, where `title` has a UNIQUE constraint to prevent duplicates.
+Enter the number corresponding to the desired action. For example, to scrape news, enter `1`.
 
-## Contributing
+### Examples of User Interactions
+- **Scrape News**: Enter `1` and the application will scrape and store news in the database.
+- **Find News by Title**: Enter `4`, then input the news title when prompted to receive the corresponding URL.
 
-Contributions to enhance the functionality, improve the code structure, or fix bugs are welcome. Please feel free to fork the repository and submit pull requests.
+## Error Handling
+The application is equipped to handle common errors such as invalid inputs or issues during data fetching. In case of an error, an appropriate message will be displayed to the user.
